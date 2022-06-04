@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('css')
-    <link href="{{ asset('js/plugins/datepicker/daterangepicker.css') }}" rel="stylesheet">
-    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
 
+    <link href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -34,33 +33,30 @@
 
 @section('content')
 
-
-
-    <div class="page-wrapper p-t-30 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w700">
-            <div class="card card-6">
-                <div class="card-body">
-                    <h3 style="float: left;">Events List</h1>
-                        <button type="button" class="btn btn-primary create-btn pull-right add-new" data-toggle="modal"
-                            data-target="#myModal">Add New</button>
-                        <table class="table table-bordered" id="event-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Description</th>
-                                    <th>Created At</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-
-                        </table>
-                </div>
+<div class="page-wrapper p-t-30 p-b-100 font-poppins">
+    <div class="wrapper wrapper--w700">
+        <div class="card card-6">
+            <div class="card-body">
+                <h3 style="float: left;">Events List</h1>
+                    <button type="button" class="btn btn-primary create-btn pull-right add-new" data-toggle="modal"
+                        data-target="#myModal">Add New</button>
+                    <table class="table table-bordered" id="event-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Description</th>
+                                <th>Created At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
@@ -114,7 +110,9 @@
 @section('scripts')
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="  https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
     <script>
         $(function() {
 
@@ -142,20 +140,29 @@
                             name: 'name'
                         },
                         {
-                            data: 'start_date',
-                            name: 'start_date'
+                            data: null,
+                            render: function(o) {
+                                var actions = moment(o.start_date).format("LL");
+                                return actions;
+                            },
                         },
                         {
-                            data: 'end_date',
-                            name: 'raend_datete'
+                            data: null,
+                            render: function(o) {
+                                var actions = moment(o.end_date).format("LL");
+                                return actions;
+                            },
                         },
                         {
                             data:'description',
                             name:'description'
                         },
                         {
-                            data: 'created_at',
-                            name: 'created_at'
+                            data: null,
+                            render: function(o) {
+                                var actions = moment(o.created_at).format("LLL");
+                                return actions;
+                            },
                         },
                         {
                             data: null,

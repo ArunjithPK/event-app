@@ -75,5 +75,14 @@ class EventsInvitedUsersRepository
         ->count();
     }
 
+    public function getInvitedWiseReports(){
+        return $this->model
+        ->select('event_id',\DB::raw('count(*) as total'))
+        ->groupBy('event_id')
+        ->with(['event'=>function($que){
+            return $que->select('id','name');
+        }])
+        ->get();
+    }
 
 }

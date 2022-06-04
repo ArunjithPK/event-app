@@ -26,8 +26,9 @@ Route::post('/register/store', [RegistraionController::class, 'store'])->name('r
 Route::get('login', [RegistraionController::class, 'loginPage'])->name('login');
 Route::post('login', [RegistraionController::class, 'login'])->name('login.triger');
 Route::post('logout', [RegistraionController::class, 'logout'])->name('logout');
+Route::get('reports', [EventsController::class, 'reportPage'])->name('event.reports.page');
 
-Route::group(['middleware' => ['auth','web'],'prefix' => 'events'], function () { //dd(1);
+Route::group(['middleware' => ['auth','web'],'prefix' => 'events'], function () {
     Route::get('/', [EventsController::class, 'index'])->name('event.page');
     Route::get('/{id}', [EventsController::class, 'getById'])->name('event.single');
     Route::get('/user/list', [EventsController::class, 'getMyEvents'])->name('user.events');
@@ -39,10 +40,5 @@ Route::group(['middleware' => ['auth','web'],'prefix' => 'events'], function () 
     Route::post('/invited/users/store', [EventInvitedUsersController::class, 'store'])->name('event.invited-users.store');
     Route::delete('/invited/users/remove/{id}',[EventInvitedUsersController::class, 'destroy'])->name('event.invited-users.destroy');
 });
-
-Route::get('reports', [EventsController::class, 'reportPage'])->name('reports.page');
-Route::get('report/data', [EventsController::class, 'reportData'])->name('reports.data');
-
-
 
 

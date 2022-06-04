@@ -47,7 +47,7 @@
         <div class="wrapper wrapper--w700">
             <div class="card card-6">
                 <div class="card-body">
-                    <h3 style="float: left">{{ $event->name }} : Users List</h1>
+                    <h3 style="float: left">{{ $event->name }} : Guest Lists</h1>
                         <button type="button" class="btn btn-primary create-btn pull-right add-new" data-toggle="modal"
                             data-target="#myModal">Add New</button>
                         <table class="table table-bordered" id="table">
@@ -138,8 +138,11 @@
                             name: 'user.email',
                         },
                         {
-                            data: 'created_at',
-                            name: 'created_at'
+                            data: null,
+                            render: function(o) {
+                                var actions = moment(o.created_at).format("LLL");
+                                return actions;
+                            },
                         },
                         {
                             data: null,

@@ -30,8 +30,9 @@ class Events extends Model
     }
 
     public function eventsInvitedUsers(){
-        return $this->hasMany('App\Models\EventsInvitedUsers', 'id', 'event_id');
+        return $this->hasMany('App\Models\EventsInvitedUsers', 'event_id');
     }
+
 
 
 }

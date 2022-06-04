@@ -66,7 +66,7 @@ class EventsController extends Controller
 
     public function getDashboardData(Request $request){
         $inputs = $request->all();
-        $inputs['per_page'] = 6;
+        $inputs['per_page'] = 9;
         $events = $this->repository->getAllWithPaginate($inputs);
         return view('welcome', [
             'events' => $events,
@@ -75,13 +75,17 @@ class EventsController extends Controller
     }
 
     public function reportPage(){
-        return view('events.reports');
-    }
+    //    $createdWise = $this->repository->getCreatedWiseReports();
+    //    $invitedWise = $this->invitedUsersRepository->getInvitedWiseReports();
 
-    public function reportData(){
-        return datatables()->of($this->repository->getReportData())->addIndexColumn()->toJson();
+       $events = $this->repository->getEventsRepots();
+       $users = $this->repository->getUserRepots();
+    //    return $events;
+        return view('events.reports', [
+            'users' => $users,
+            'events' => $events
+        ]);
     }
-
 
 }
 
