@@ -11,7 +11,7 @@ use App\Services\HelperService;
 class EventsController extends Controller
 {
 
-    protected $repository;
+    protected $repository, $invitedUsersRepository;
 
     public function __construct(EventsRepository $repository,
     EventsInvitedUsersRepository $invitedUsersRepository)
@@ -27,7 +27,7 @@ class EventsController extends Controller
     public function store(EventRequest $request){
         try {
             $inputs = $request->all();
-            if($request->has('id')){
+            if(!$request->filled('id')){
                 $inputs['created_by'] = \Auth::id();
             }
             $this->repository->store($inputs);
@@ -62,6 +62,24 @@ class EventsController extends Controller
             \DB::rollBack();
             return response()->json(HelperService::returnFalseResponse($e));
         }
+    }
+
+    public function getDashboardData(Request $request){
+        $inputs = $request->all();
+        $inputs['per_page'] = 6;
+        $events = $this->repository->getAllWithPaginate($inputs);
+        return view('welcome', [
+            'events' => $events,
+            'params'=>$inputs
+        ]);
+    }
+
+    public function reportPage(){
+        return view('events.reports');
+    }
+
+    public function reportData(){
+        return datatables()->of($this->repository->getReportData())->addIndexColumn()->toJson();
     }
 
 

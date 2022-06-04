@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Requests;
-use Carbon\Carbon;
+
 use Illuminate\Foundation\Http\FormRequest;
 
-class EventRequest extends FormRequest
+class EventsInvitedUsersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,22 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return $rules = [
-            'name' => "required|max:50",
-            'start_date' => "date|date_format:Y-m-d|after_or_equal:".Carbon::now()->format('Y-m-d'),
-            'end_date' => "date|date_format:Y-m-d|after_or_equal:start_date"
+            'event_id' => "required",
+            'email' =>"required"
         ];
     }
-}
 
+     /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'event_id.required' => 'Event is required.',
+            'email.required' => 'Email is required.'
+        ];
+    }
+
+}

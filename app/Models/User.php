@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
+    public $timestamps = true;
+    protected $appends = ['full_name'];
     /**
      * The attributes that are mass assignable.
      *
@@ -45,4 +47,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     /**
+     * Get full name of user
+     *
+     * @return void
+     */
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
 }

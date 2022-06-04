@@ -28,7 +28,7 @@ class EventsInvitedUsersRepository
      */
 
     public function store($inputs){
-        return $this->model->updateOrCreate(['id' => $inputs['id']], $inputs);
+        return $this->model->create($inputs);
     }
 
       /**
@@ -60,12 +60,20 @@ class EventsInvitedUsersRepository
      * @param Auth::id
      * @return object
      */
-    public function getByEvents($eventId){
-        return $this->model->where('event_id',$eventId)->get();
+    public function getMyEventId($eventId){
+        return $this->model->where('event_id',$eventId)
+        ->with(['user'=>function($que){
+            return $que->select('id','first_name','last_name','email');
+        }])
+        ->get();
     }
 
-
-
+    public function alreadyExists($inputs){
+        return $this->model
+        ->where('event_id',$inputs['event_id'])
+        ->where('user_id',$inputs['user_id'])
+        ->count();
+    }
 
 
 }

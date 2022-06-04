@@ -19,11 +19,11 @@ class EventsInvitedUsers extends Model
     ];
 
     public function user(){
-        return $this->belongsTo('Models\User', 'user_id', 'id');
+        return $this->belongsTo('App\Models\User', 'user_id', 'id');
     }
 
     public function event(){
-        return $this->belongsTo('Models\Events', 'event_id', 'id');
+        return $this->belongsTo('App\Models\Events', 'event_id', 'id');
     }
 
 }

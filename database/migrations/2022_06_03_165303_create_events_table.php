@@ -18,6 +18,7 @@ class CreateEventsTable extends Migration
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
+            $table->text('description')->nullable();
             $table->integer('created_by');
             $table->timestamps();
             $table->softDeletes();

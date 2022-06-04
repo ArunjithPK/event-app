@@ -19,17 +19,19 @@ class Events extends Model
         'name',
         'start_date',
         'end_date',
+        'description',
         'created_by',
         'created_at',
         'updated_at'
     ];
 
     public function user(){
-        return $this->belongsTo('Models\User', 'created_by', 'id');
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
     }
 
     public function eventsInvitedUsers(){
-        return $this->hasMany('Models\EventsInvitedUsers', 'id', 'event_id');
+        return $this->hasMany('App\Models\EventsInvitedUsers', 'id', 'event_id');
     }
+
 
 }

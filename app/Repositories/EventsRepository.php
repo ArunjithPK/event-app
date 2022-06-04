@@ -22,7 +22,7 @@ class EventsRepository
         $this->model = $model;
         $this->invitedUsers = $invitedUsers;
     }
-   
+
      /**
      * created/update events.
      *
@@ -73,6 +73,35 @@ class EventsRepository
 
     public function getAllEvents(){
         return $this->model->all();
+    }
+
+    public function getAllWithPaginate($inputs){
+        return $this->model
+        ->when((isset($inputs['search']) && (!empty($inputs['search']))), function ($query) use ($inputs) {
+            return $query->where('name', 'like', '%'.$inputs['search'].'%');
+        })
+        ->when((isset($inputs['start_date']) && (!empty($inputs['start_date']))), function ($query) use ($inputs) {
+            return $query->where('start_date', '>=' ,$inputs['start_date']);
+        })
+        ->when((isset($inputs['end_date']) && (!empty($inputs['end_date']))), function ($query) use ($inputs) {
+            return $query->where('end_date', '<=' ,$inputs['end_date']);
+        })
+        ->paginate($inputs['per_page']);
+    }
+
+
+
+    public function getReportData(){
+        return $this->model
+        ->select(
+            'user_id',
+            \DB::raw('count(*) as total'),
+            // \DB::raw('AVG(rating) as rating')
+        )
+        ->groupBy('user_id')
+        ->get();
+        // ->avg('total_counts')
+
     }
 
 

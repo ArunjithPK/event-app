@@ -15,38 +15,40 @@
         var myCalendar = $('.js-datepicker');
         var isClick = 0;
 
-        $(window).on('click',function(){
+        $(window).on('click', function () {
             isClick = 0;
         });
 
-        $(myCalendar).on('apply.daterangepicker',function(ev, picker){
+        $(myCalendar).on('apply.daterangepicker', function (ev, picker) {
             isClick = 0;
             $(this).val(picker.startDate.format('YYYY-MM-DD'));
 
         });
 
-        $('.js-btn-calendar').on('click',function(e){
+        $('.js-btn-calendar').on('click', function (e) {
             e.stopPropagation();
 
-            if(isClick === 1) isClick = 0;
-            else if(isClick === 0) isClick = 1;
+            if (isClick === 1) isClick = 0;
+            else if (isClick === 0) isClick = 1;
 
             if (isClick === 1) {
                 myCalendar.focus();
             }
         });
 
-        $(myCalendar).on('click',function(e){
+        $(myCalendar).on('click', function (e) {
             e.stopPropagation();
             isClick = 1;
         });
 
-        $('.daterangepicker').on('click',function(e){
+        $('.daterangepicker').on('click', function (e) {
             e.stopPropagation();
         });
 
 
-    } catch(er) {console.log(er);}
+    } catch (er) {
+        console.log(er);
+    }
     /*[ Select 2 Config ]
         ===========================================================*/
 
@@ -73,7 +75,8 @@
  * Function for showing validation messages in bootstarp modal
  * error: json error messages $form: form ID
  * */
-function associate_errors(errors, $form, multimodal) {  console.log(errors);
+function associate_errors(errors, $form, multimodal) {
+    console.log(errors);
     var $group;
     $form.find('.input-group').removeClass('has-error').find('.help-block').text('');
     $.each(errors, function (key, value) {
@@ -90,7 +93,7 @@ function associate_errors(errors, $form, multimodal) {  console.log(errors);
     }
 }
 
-function formSubmit($form, url,table, e, message, model, returnUrl) {
+function formSubmit($form, url, table, e, message, model, returnUrl) {
     var $form = $form;
     var url = url;
     var e = e;
@@ -106,13 +109,13 @@ function formSubmit($form, url,table, e, message, model, returnUrl) {
         success: function (data) {
             if (data.success) {
                 swal("Saved", message, "success").then((value) => {
-                    if(returnUrl){
+                    if (returnUrl) {
                         window.location.href = returnUrl;
-                    }else{
-                       $("#myModal").modal('hide');
+                    } else {
+                        $("#myModal").modal('hide');
                         table.ajax.reload();
                     }
-                  })
+                })
 
             } else {
                 swal("Wanning", data.error, "wanning");
@@ -128,4 +131,56 @@ function formSubmit($form, url,table, e, message, model, returnUrl) {
         contentType: false,
         processData: false,
     });
+}
+
+function deleteServiceRecord(url, table, message) {
+    var url = url;
+    var table = table;
+    swal({
+            title: "Are you sure?",
+            text: "You will not be able to undo this action. Proceed?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            swal("Deleted", message, "success");
+                            if (table != null) {
+                                table.ajax.reload();
+                            }
+                        } else if (data.success == false) {
+                            if (Object.prototype.hasOwnProperty.call(data, 'message') && data
+                                .message) {
+                                swal("Warning", data.message, "warning");
+                            } else {
+                                swal("Warning", 'Data exists', "warning");
+                            }
+                        } else if (data.warning == true) {
+                            swal("Warning", data.message, "warning");
+                        } else {
+                            console.log(data);
+                        }
+                    },
+                    error: function (xhr, textStatus, thrownError) {
+                        console.log(xhr.status);
+                        console.log(thrownError);
+                    },
+                    contentType: false,
+                    processData: false,
+                });
+
+            } else {
+                // swal("Your imaginary file is safe!");
+            }
+        });
+
 }

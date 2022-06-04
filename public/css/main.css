@@ -644,3 +644,8 @@ input {
 .help-block{
     color:#f10606;
 }
+
+.fa {
+    margin: 0% 1% 0% 8%;
+    font-size: 17px;
+}
