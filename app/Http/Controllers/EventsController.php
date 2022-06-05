@@ -75,12 +75,8 @@ class EventsController extends Controller
     }
 
     public function reportPage(){
-    //    $createdWise = $this->repository->getCreatedWiseReports();
-    //    $invitedWise = $this->invitedUsersRepository->getInvitedWiseReports();
-
        $events = $this->repository->getEventsRepots();
        $users = $this->repository->getUserRepots();
-    //    return $events;
         return view('events.reports', [
             'users' => $users,
             'events' => $events
