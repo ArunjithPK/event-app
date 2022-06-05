@@ -6,11 +6,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <style>
+
+   <style>
+
+        .navbar {
+            border-radius: 0px !important;
+        }
+        .nav{
+            margin-left: 45% !important;
+        }
+
         .p-t-30 {
             padding-top: 50px !important;
         }
 
+
+        body {
+            font-family: "Poppins", "Arial", "Helvetica Neue", sans-serif !important;
+            font-weight: 400;
+            font-size: 14px;
+        }
         h3 {
             margin-bottom: 2%;
         }
